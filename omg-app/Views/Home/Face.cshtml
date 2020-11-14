@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Detect faces.";
+}
+@model FaceAttributesModel
+
+<div class="user-form">
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Face">
+        <p>Upload picture: </p>
+
+        <input type="file" name="file" />
+        <input type="submit" value="Upload" class="profile-button user-picture-input" />
+    </form>
+</div>
+
+<br />
+<hr />
+<br />
+
+<div>
+    @if (Model != null && !string.IsNullOrWhiteSpace(Model.ImageUrl) && Model.FaceAttributes != null)
+    {
+        <div class="userpicture">
+            <img id="image-preview" srcset="@Model.ImageUrl, https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" />
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <table class="table">
+            <tr>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Smile</th>
+                <th scope="col">Glasses</th>
+                <th scope="col">Anger</th>
+                <th scope="col">Contempt</th>
+                <th scope="col">Disgust</th>
+                <th scope="col">Fear</th>
+                <th scope="col">Happiness</th>
+                <th scope="col">Neutral</th>
+                <th scope="col">Sadness</th>
+                <th scope="col">Surprise</th>
+            </tr>
+
+            <tr>
+                <td>@Model.FaceAttributes.Age</td>
+                <td>@Model.FaceAttributes.Gender</td>
+                <td>@Model.FaceAttributes.Smile</td>
+                <td>@Model.FaceAttributes.Glasses</td>
+                <td>@Model.FaceAttributes.Emotion.Anger</td>
+                <td>@Model.FaceAttributes.Emotion.Contempt</td>
+                <td>@Model.FaceAttributes.Emotion.Disgust</td>
+                <td>@Model.FaceAttributes.Emotion.Fear</td>
+                <td>@Model.FaceAttributes.Emotion.Happiness</td>
+                <td>@Model.FaceAttributes.Emotion.Neutral</td>
+                <td>@Model.FaceAttributes.Emotion.Sadness</td>
+                <td>@Model.FaceAttributes.Emotion.Surprise</td>
+            </tr>
+        </table>
+
+    }
+</div>
+
+<style>
+    
+    table {
+        width: 50%;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+    }
+
+    td {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>

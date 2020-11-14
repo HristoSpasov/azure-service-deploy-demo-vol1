@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Blobs";
+}
+@model List<BlobMetaInfo>
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<div>
+    <form>
+        @if (Model.Any())
+        {
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Actions</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Size</td>
+                        <td><a href='@item.DownloadUrl'>Download</a></td>
+                        <td>
+                            <input type="submit" class="blobDelete btn-danger" value="Delete"/>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <h2>No files yet!</h2>
+        }
+    </form>
+</div>
+
+<div class="user-form">
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="UploadBlob">
+        <p>Upload File: </p>
+
+        <input type="file" name="file" class="btn-primary"/>
+        <input type="submit" value="Upload" class="btn-primary" />
+    </form>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".blobDelete").click(function (evt) {
+            var cell = $(evt.target).closest("tr").children().first();
+            var name = cell.text();
+
+            $.ajax({
+                type: "Delete",
+                url: "/Home/DeleteBlob",
+                data: JSON.stringify({
+                    BlobName: name
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //var row = $(evt.target).closest("tr");
+                    //console.log(row);
+                    //$(row).remove();
+                    // window.location.reload();
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+        });
+    });
+</script>

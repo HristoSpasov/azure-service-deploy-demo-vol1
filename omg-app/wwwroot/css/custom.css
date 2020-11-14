@@ -1,0 +1,12 @@
+﻿table {
+    width: 50%;
+}
+
+th, td {
+    border-bottom: 1px solid #ddd;
+}
+
+td {
+    margin-left: 10px;
+    margin-right: 10px;
+}
